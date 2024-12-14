@@ -11,16 +11,13 @@ public class LeagueSnake extends PApplet {
      * 
      * Put all the game variables here.
      */
-    int x;
-    int y;
-LeagueSnake(int x, int y){
-	this.x = x;
-	this.y = y;
-}
-Segment head;
+
+
+int applesEaten = 0;
+int direction = UP;
 int foodX;
 int foodY;
-    
+Segment head;
     /*
      * Setup methods
      * 
@@ -33,9 +30,11 @@ int foodY;
 
     @Override
     public void setup() {
-        head = new Segment();
+        head = new Segment(250,250);
         frameRate(20);
         dropFood();
+       
+        
     }
 
     void dropFood() {
@@ -55,16 +54,19 @@ int foodY;
        background(50, 168, 82);
        drawFood();
        drawSnake();
+       move();
     }
 
     void drawFood() {
         // Draw the food
         fill(219, 13, 13);
-        rect(10,10,foodX,foodY);
+        rect(foodX,foodY,30,30);
     }
 
     void drawSnake() {
         // Draw the head of the snake followed by its tail
+    	fill(19, 16, 224);
+    	rect(head.x,head.y,30,30);
     }
 
     void drawTail() {
@@ -100,29 +102,50 @@ int foodY;
     public void keyPressed() {
         // Set the direction of the snake according to the arrow keys pressed
         
+
+        if(keyCode == UP && direction != DOWN) {
+        	direction = UP;
+        }
+        
+        if(keyCode == DOWN && direction != UP) {
+        	direction = DOWN;
+        }
     }
 
     void move() {
         // Change the location of the Snake head based on the direction it is moving.
 
-        /*
+        
         if (direction == UP) {
-            // Move head up
-            
+            head.y-=10;
+            checkBoundaries();
         } else if (direction == DOWN) {
-            // Move head down
-                
+          head.y+=10;
+               checkBoundaries(); 
         } else if (direction == LEFT) {
-            
+            head.x+=10;
+            checkBoundaries(); 
         } else if (direction == RIGHT) {
-            
+            head.x-=10;
+            checkBoundaries(); 
         }
-        */
+        
     }
 
     void checkBoundaries() {
         // If the snake leaves the frame, make it reappear on the other side
-        
+        if(head.y>=500) {
+        	System.exit(0);
+        }
+        if(head.y<=30) {
+        	System.exit(0);
+        }
+        if(head.x>=500) {
+        	System.exit(0);
+        }
+        if(head.x<=30) {
+        	System.exit(0);
+        }
     }
 
     void eat() {
@@ -134,4 +157,4 @@ int foodY;
     static public void main(String[] passedArgs) {
         PApplet.main(LeagueSnake.class.getName());
     }
-}
+    }
